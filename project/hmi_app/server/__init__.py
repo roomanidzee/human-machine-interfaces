@@ -31,6 +31,9 @@ def create_app():
     logging.configure(base_path)
 
     from server.modules.home.views import index
+    from server.modules.numbers.views import numbers
+
     app.register_blueprint(index)
+    app.register_blueprint(numbers)
 
     return app

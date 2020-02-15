@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Арабские цифры</title>
+        <meta charset="UTF-8">
+    </head>
+
+    <script>
+        setTimeout(function(){
+            window.location.href = '{{redirect_url}}';
+        }, 30000);
+    </script>
+
+    <body>
+        {% for elem in elements %}
+        <h2>{{ elem }}</h2>
+        {% endfor %}
+    </body>
+
+</html>
