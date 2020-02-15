@@ -1,0 +1,17 @@
+development:
+
+  debug: true
+
+  host: 127.0.0.1
+
+  port: 5000
+
+  use_reloader: false
+
+  logs:
+
+    directory: logs
+    format: '%(asctime)s [%(threadName)-12.12s] [in %(pathname)s:%(lineno)d in %(funcName)s] [%(levelname)-5.5s]  %(message)s'
+  
+  redis:
+    url: "redis://localhost:6379/1"

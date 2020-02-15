@@ -107,6 +107,8 @@ dmypy.json
 .pyre/
 
 ### VisualStudioCode ###
+.idea
+.vscode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
