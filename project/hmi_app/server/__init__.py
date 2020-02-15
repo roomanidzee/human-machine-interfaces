@@ -22,18 +22,17 @@ def create_app():
 
     redis_client = FlaskRedis()
     redis_client.init_app(app)
-    
-    """
+
     base_path = os.path.dirname(os.path.abspath(__file__))
     log_path = os.path.join(
         base_path,
-        app.config.logs.directory,
+        'logs',
     )
     current_time = datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S")
 
     logging.basicConfig(
         level=logging.INFO,
-        format=app.config.logs.format,
+        format='%(asctime)s [%(threadName)-12.12s] [in %(pathname)s:%(lineno)d in %(funcName)s] [%(levelname)-5.5s]  %(message)s',
         handlers=[
             TimedRotatingFileHandler(
                 filename=f"{log_path}/hmi_app.({current_time}).log",
@@ -45,6 +44,5 @@ def create_app():
             logging.StreamHandler()
         ]
     )
-    """
 
     return app
