@@ -30,4 +30,7 @@ def create_app():
     base_path = os.path.dirname(os.path.abspath(__file__))
     logging.configure(base_path)
 
+    from server.modules.home.views import index
+    app.register_blueprint(index)
+
     return app
