@@ -11,10 +11,10 @@
         <h2>{{ elem.path }}</h2>
         {% endfor %}
 
-        <form id = "form" action="{{ url_for('validate_numbers') }}"method="POST">
-            <input name = "img_numbers">
-        </form>
-        <button type="submit">Проверить</button>
+        <form id = "form" action="{{ url_for('numbers_views.validate_numbers') }}"method="POST">
+            <input name = "numbers">
+            <button type="submit">Проверить</button>
+        </form>        
     </body>
 
 </html>

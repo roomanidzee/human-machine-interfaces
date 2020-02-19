@@ -6,22 +6,23 @@ from typing import Dict, List, Set
 class NumbersService:
     """Service for worling with numbers."""
 
-    def generate_random_numbers() -> Set[int]:
-        """Create a set with 5 random numbers."""
+    def __init__(self):
+        self.IMAGE_COUNT = 49
+
+    def generate_random_numbers(self) -> Set[int]:
+        """Create a set with random numbers. Limit is IMAGE_COUNT"""
 
         return {
-            random.randrange(1, 10)
-            for _ in range(5)
+            random.randrange(1, self.IMAGE_COUNT)
+            for _ in range(self.IMAGE_COUNT)
         }
 
     def create_dict(
+        self,
         numbers: Set[int],
         file_paths: List[str]
     ) -> Dict[int, str]:
         """Create a dict with number as a key and file_path as a value"""
-
-        if max(numbers) != len(file_paths):
-            raise ValueError('Incorrect input for numbers and file_paths')
 
         result = {}
 

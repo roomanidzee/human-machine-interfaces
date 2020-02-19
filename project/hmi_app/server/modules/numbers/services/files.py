@@ -4,6 +4,7 @@ from typing import List
 
 from flask import current_app
 
+from server import base_path
 from server.modules.numbers.dto import FileObject
 
 class FilesService:
@@ -11,13 +12,17 @@ class FilesService:
 
     def __init__(self, img_path):
         """Constructor for working with images"""
-        self.img_path = img_path
+        self.img_path = f'{base_path}/modules/numbers/{img_path}'
 
-    def retrieve_all_files() -> List[FileObject]:
+    def retrieve_all_files(self) -> List[FileObject]:
         """Retrieve all pictures of numbers."""
-        files = os.listdir(self.img_path)
+        files = [
+            elem
+            for elem in os.listdir(self.img_path)
+            if 'gitkeep' not in elem
+        ]
 
         return [
-            FileObject(elem)
+            FileObject(f'{self.img_path}/{elem}')
             for elem in files
         ]

@@ -8,7 +8,11 @@ from flask import (
     url_for,
 )
 
-from server.modules.numbers import services
+from server.modules.numbers.services import (
+    FilesService,
+    NumbersService, 
+    RedisService
+)
 
 numbers = Blueprint(
     'numbers_views',
@@ -17,12 +21,15 @@ numbers = Blueprint(
     template_folder='templates'
 )
 
+file_service = FilesService('images')
+numbers_service = NumbersService()
+redis_service = RedisService()
+
 @numbers.route(
     '/check_memory',
     methods=['GET']
 )
 def get_all_pictures():
-    file_service = services.files.FilesService('images')
 
     return render_template(
         'numbers/validate.html',
@@ -35,14 +42,11 @@ def get_all_pictures():
     methods=['GET']
 )
 def get_unique_images():
-    numbers_services = services.numbers.NumbersService()
-    redis_service = services.redis.RedisService()
-    file_service = services.files.FilesService('images')
 
     all_files = file_service.retrieve_all_files()
 
-    dict_for_save = numbers_services.create_dict(
-        numbers=numbers_services.generate_random_numbers(),
+    dict_for_save = numbers_service.create_dict(
+        numbers=numbers_service.generate_random_numbers(),
         file_paths=[
             str(elem)
             for elem in all_files
@@ -64,15 +68,13 @@ def get_unique_images():
 def validate_numbers():
     numbers = request.form['numbers']
 
-    redis_service = services.redis.RedisService()
-
     validate_result = redis_service.validate_for_keys(
         set(numbers.split(','))
     )
 
     return redirect(
         url_for(
-            'get_all_pictures',
+            'numbers_views.get_all_pictures',
             validate_result=validate_result
         )
     )

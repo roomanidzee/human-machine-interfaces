@@ -1,6 +1,4 @@
-from server import create_app
-
-app = create_app()
+from server import app
 
 app.run(
     host=app.config.host,

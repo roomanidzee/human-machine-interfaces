@@ -2,26 +2,23 @@
 import os
 from typing import Dict, Set
 
-from flask import current_app
+from server import redis_client
 
 class RedisService:
     """Service for working with Redis."""
 
-    def __init__(self):
-        self.redis_client = current_app.extensions['redis_client']
-
-    def save_dict(input: Dict[int, str]) -> None:
+    def save_dict(self, input: Dict[int, str]) -> None:
         """Save ids and file_paths to redis."""
 
         for key, value in input.items():
-            self.redis_client.set(str(key), value)
+            redis_client.set(str(key), value)
 
-    def validate_for_keys(input: Set[str]) -> bool:
+    def validate_for_keys(self, elem_input: Set[str]) -> bool:
         """Validate, if all input keys exists."""
 
-        keys = set(self.redis_client.scan_iter())
+        keys = set(redis_client.scan_iter())
 
-        diff = keys - modified_input
+        diff = keys - elem_input
 
         return not bool(diff)
 

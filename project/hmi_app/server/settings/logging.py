@@ -15,9 +15,11 @@ def configure(base_path):
     )
     current_time = datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S")
 
+    log_fmt = '%(asctime)s [%(threadName)-12.12s] [in %(pathname)s:%(lineno)d in %(funcName)s] [%(levelname)-5.5s]  %(message)s'
+
     logging.basicConfig(
         level=logging.INFO,
-        format='%(asctime)s [%(threadName)-12.12s] [in %(pathname)s:%(lineno)d in %(funcName)s] [%(levelname)-5.5s]  %(message)s',
+        format=log_fmt,
         handlers=[
             TimedRotatingFileHandler(
                 filename=f"{log_path}/hmi_app.({current_time}).log",

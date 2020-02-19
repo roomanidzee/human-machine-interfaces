@@ -4,36 +4,32 @@ import logging
 from logging.handlers import TimedRotatingFileHandler
 
 from flask import Flask
-from flask_redis import FlaskRedis
 from dynaconf import FlaskDynaconf
+from redis import Redis
 
 from server.settings import (
-    redis,
     logging
 )
 
 os.environ.setdefault('FLASK_ENV', 'development')
+os.environ.setdefault('SETTINGS_MODULE_FOR_DYNACONF', 'config/settings.yml')
 
+app = Flask(__name__)
 
-def create_app():
-    """Function for initializing Flask application."""
+FlaskDynaconf(app)
 
-    app = Flask(__name__)
+redis_client = Redis(
+    host='localhost',
+    port=6379,
+    db=0
+)
 
-    FlaskDynaconf(
-        app,
-        SETTINGS_FILE_FOR_DYNACONF="config.yml"
-    )
+base_path = os.path.dirname(os.path.abspath(__file__))
+logging.configure(base_path)
 
-    redis.configure(app)
+from server.modules.home.views import index
+from server.modules.numbers.views import numbers
 
-    base_path = os.path.dirname(os.path.abspath(__file__))
-    logging.configure(base_path)
+app.register_blueprint(index)
+app.register_blueprint(numbers)
 
-    from server.modules.home.views import index
-    from server.modules.numbers.views import numbers
-
-    app.register_blueprint(index)
-    app.register_blueprint(numbers)
-
-    return app
