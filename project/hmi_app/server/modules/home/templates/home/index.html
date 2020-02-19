@@ -4,10 +4,17 @@
     <head>
         <title>Главная страница</title>
         <meta charset="UTF-8">
+        <link rel="stylesheet" href="{{ url_for('base_pages.static', filename = 'css/style.css') }}">
     </head>
 
     <body>
-        <h1>Hello!</h1>
+
+        <h1 class = "center-text">Hello!</h1>
+
+        <img class="center-img" src="{{ url_for('base_pages.static', filename = 'images/hello.jpeg') }}"/>
+    
+        <a class="button center-text" href="{{ url_for('numbers_views.get_unique_images') }}">Go to test!</a>
+        
     </body>
 
 </html>

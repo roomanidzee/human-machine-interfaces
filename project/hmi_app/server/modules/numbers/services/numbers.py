@@ -14,7 +14,7 @@ class NumbersService:
 
         return {
             random.randrange(1, self.IMAGE_COUNT)
-            for _ in range(self.IMAGE_COUNT)
+            for _ in range(10)
         }
 
     def create_dict(
@@ -27,6 +27,6 @@ class NumbersService:
         result = {}
 
         for elem in numbers:
-            result[elem] = file_paths[elem]
-
+            result[elem] = file_paths[random.randrange(1, 10)]
+        
         return result

@@ -6,7 +6,8 @@ index = Blueprint(
     'base_pages',
     __name__,
     url_prefix='/index',
-    template_folder='templates'
+    template_folder='templates',
+    static_folder='static'
 )
 
 @index.route(

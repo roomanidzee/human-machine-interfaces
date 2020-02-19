@@ -23,6 +23,6 @@ class FilesService:
         ]
 
         return [
-            FileObject(f'{self.img_path}/{elem}')
+            FileObject(elem).path
             for elem in files
         ]

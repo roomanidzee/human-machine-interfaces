@@ -4,17 +4,34 @@
     <head>
         <title>Проверка памяти</title>
         <meta charset="UTF-8">
+        <link rel="stylesheet" href="{{ url_for('numbers_views.static', filename = 'css/style.css') }}">
     </head>
 
     <body>
-        {% for elem in elements %}
-        <h2>{{ elem.path }}</h2>
-        {% endfor %}
 
-        <form id = "form" action="{{ url_for('numbers_views.validate_numbers') }}"method="POST">
-            <input name = "numbers">
-            <button type="submit">Проверить</button>
-        </form>        
+        <div>
+            <div class="column">
+                {% for elem in elements %}
+                <img src="{{ elem }}" style="width:10%">
+                {% endfor %}
+            </div>
+
+            <div class="move-right">
+
+                <form id = "form" action="{{ url_for('numbers_views.validate_numbers') }}"method="POST">
+                    <input name = "numbers">
+                    <button type="submit">Проверить</button>
+                </form>
+                
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <h5>{{ messages[0] }}</h1>
+                {% endif %}
+                {% endwith %}
+
+            </div>    
+            
+        </div>
     </body>
 
 </html>

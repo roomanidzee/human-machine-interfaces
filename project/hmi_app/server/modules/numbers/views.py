@@ -2,6 +2,7 @@
 
 from flask import (
     Blueprint,
+    flash,
     render_template,
     redirect,
     request,
@@ -10,7 +11,7 @@ from flask import (
 
 from server.modules.numbers.services import (
     FilesService,
-    NumbersService, 
+    NumbersService,
     RedisService
 )
 
@@ -18,10 +19,11 @@ numbers = Blueprint(
     'numbers_views',
     __name__,
     url_prefix='/numbers',
-    template_folder='templates'
+    template_folder='templates',
+    static_folder='static'
 )
 
-file_service = FilesService('images')
+file_service = FilesService('static/images')
 numbers_service = NumbersService()
 redis_service = RedisService()
 
@@ -31,9 +33,16 @@ redis_service = RedisService()
 )
 def get_all_pictures():
 
+    all_files = file_service.retrieve_all_files()
+
+    file_paths = [
+        url_for('numbers_views.static', filename = f'images/{elem}')
+        for elem in all_files
+    ]
+
     return render_template(
         'numbers/validate.html',
-        elements = file_service.retrieve_all_files()
+        elements = file_paths
     )
 
 
@@ -48,7 +57,7 @@ def get_unique_images():
     dict_for_save = numbers_service.create_dict(
         numbers=numbers_service.generate_random_numbers(),
         file_paths=[
-            str(elem)
+            url_for('numbers_views.static', filename = f'images/{elem}')
             for elem in all_files
         ]
     )
@@ -57,7 +66,7 @@ def get_unique_images():
 
     return render_template(
         'numbers/index.html',
-        elements = list(dict_for_save.values())
+        result_dict = dict_for_save
     )
 
 
@@ -72,10 +81,24 @@ def validate_numbers():
         set(numbers.split(','))
     )
 
+    formatted_result = [
+        str(elem).replace('b', '').replace("\'", '')
+        for elem in validate_result
+    ]
+
+    final_result = ','.join(formatted_result)
+
+    if validate_result:
+        flash(f'Wrong input! Missed: {formatted_result}')
+        return redirect(
+        url_for(
+            'numbers_views.get_all_pictures'
+        )
+    )
+
     return redirect(
         url_for(
-            'numbers_views.get_all_pictures',
-            validate_result=validate_result
+            'numbers_views.get_all_pictures'
         )
     )
 

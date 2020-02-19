@@ -13,8 +13,9 @@
     </script>
 
     <body>
-        {% for elem in elements %}
-        <h2>{{ elem }}</h2>
+        {% for key, value in result_dict.items() %}
+        <img src="{{ value }}" style="width:5%">
+        {{ key }}
         {% endfor %}
     </body>
 

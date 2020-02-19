@@ -15,6 +15,7 @@ os.environ.setdefault('FLASK_ENV', 'development')
 os.environ.setdefault('SETTINGS_MODULE_FOR_DYNACONF', 'config/settings.yml')
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = '3p9rhfndrp93hrjndp9348jr320pwdmsoa'
 
 FlaskDynaconf(app)
 
