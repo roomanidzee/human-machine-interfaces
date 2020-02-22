@@ -50,22 +50,6 @@ version = "5.0.3"
 toml = ["toml"]
 
 [[package]]
-category = "dev"
-description = "Fake implementation of redis API for testing purposes."
-name = "fakeredis"
-optional = false
-python-versions = ">=3.5"
-version = "1.2.1"
-
-[package.dependencies]
-redis = "<3.5"
-six = ">=1.12"
-sortedcontainers = "*"
-
-[package.extras]
-lua = ["lupa"]
-
-[[package]]
 category = "main"
 description = "A simple framework for building complex web applications."
 name = "flask"
@@ -327,14 +311,6 @@ version = "1.14.0"
 
 [[package]]
 category = "dev"
-description = "Sorted Containers -- Sorted List, Sorted Dict, Sorted Set"
-name = "sortedcontainers"
-optional = false
-python-versions = "*"
-version = "2.1.0"
-
-[[package]]
-category = "dev"
 description = "Measures number of Terminal column cells of wide-character codes"
 name = "wcwidth"
 optional = false
@@ -378,7 +354,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "3a4662ea6f87308288cbd14b8068061aa408b430a6ae57355bd78029f22d39c9"
+content-hash = "6bddd7099fe3f12dfb4ae0351351b33173906fe9e23979c8f8246158bec8d1e4"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -430,10 +406,6 @@ coverage = [
     {file = "coverage-5.0.3-cp39-cp39m-win32.whl", hash = "sha256:b63dd43f455ba878e5e9f80ba4f748c0a2156dde6e0e6e690310e24d6e8caf40"},
     {file = "coverage-5.0.3-cp39-cp39m-win_amd64.whl", hash = "sha256:da93027835164b8223e8e5af2cf902a4c80ed93cb0909417234f4a9df3bcd9af"},
     {file = "coverage-5.0.3.tar.gz", hash = "sha256:77afca04240c40450c331fa796b3eab6f1e15c5ecf8bf2b8bee9706cd5452fef"},
-]
-fakeredis = [
-    {file = "fakeredis-1.2.1-py3-none-any.whl", hash = "sha256:6cc9ec865ece12e8f4dd260b4f7940fdf630b279aa66c29bb0b84132cf2e79fb"},
-    {file = "fakeredis-1.2.1.tar.gz", hash = "sha256:ec7290d601fa030b03e2a6016b8f5c719ad25db270a6110420e7438289ad22e8"},
 ]
 flask = [
     {file = "Flask-1.1.1-py2.py3-none-any.whl", hash = "sha256:45eb5a6fd193d6cf7e0cf5d8a5b31f83d5faae0293695626f539a823e93b13f6"},
@@ -540,10 +512,6 @@ redis = [
 six = [
     {file = "six-1.14.0-py2.py3-none-any.whl", hash = "sha256:8f3cd2e254d8f793e7f3d6d9df77b92252b52637291d0f0da013c76ea2724b6c"},
     {file = "six-1.14.0.tar.gz", hash = "sha256:236bdbdce46e6e6a3d61a337c0f8b763ca1e8717c03b369e87a7ec7ce1319c0a"},
-]
-sortedcontainers = [
-    {file = "sortedcontainers-2.1.0-py2.py3-none-any.whl", hash = "sha256:d9e96492dd51fae31e60837736b38fe42a187b5404c16606ff7ee7cd582d4c60"},
-    {file = "sortedcontainers-2.1.0.tar.gz", hash = "sha256:974e9a32f56b17c1bac2aebd9dcf197f3eb9cd30553c5852a3187ad162e1a03a"},
 ]
 wcwidth = [
     {file = "wcwidth-0.1.8-py2.py3-none-any.whl", hash = "sha256:8fd29383f539be45b20bd4df0dc29c20ba48654a41e661925e612311e9f3c603"},

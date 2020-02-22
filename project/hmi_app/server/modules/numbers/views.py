@@ -91,9 +91,9 @@ def validate_numbers():
     if validate_result:
         flash(f'Wrong input! Missed: {formatted_result}')
         return redirect(
-        url_for(
-            'numbers_views.get_all_pictures'
-        )
+            url_for(
+                'numbers_views.get_all_pictures'
+            )
     )
 
     return redirect(
