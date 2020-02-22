@@ -4,7 +4,7 @@ import random
 from typing import Dict, List, Set
 
 class NumbersService:
-    """Service for worling with numbers."""
+    """Service for working with numbers."""
 
     def __init__(self):
         self.IMAGE_COUNT = 49

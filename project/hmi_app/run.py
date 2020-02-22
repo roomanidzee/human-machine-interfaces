@@ -1,8 +1,9 @@
-from server import app
+from server import create_app
+
+app = create_app()
 
 app.run(
-    host=app.config.host,
-    port=app.config.port,
-    debug=app.config.debug,
-    use_reloader=app.config.use_reloader,
+    host=app.config['APP_HOST'],
+    port=app.config['APP_PORT'],
+    debug=app.config['FLASK_DEBUG'],
 )

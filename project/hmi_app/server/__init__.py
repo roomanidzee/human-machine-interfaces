@@ -1,36 +1,41 @@
 import os
-import datetime
-import logging
-from logging.handlers import TimedRotatingFileHandler
+from pathlib import Path
 
 from flask import Flask
-from dynaconf import FlaskDynaconf
-from redis import Redis
+from flask_redis import FlaskRedis
 
 from server.settings import (
     logging
 )
 
-os.environ.setdefault('FLASK_ENV', 'development')
-os.environ.setdefault('SETTINGS_MODULE_FOR_DYNACONF', 'config/settings.yml')
+base_path = Path(__file__).parent.parent
+redis_client = FlaskRedis()
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = '3p9rhfndrp93hrjndp9348jr320pwdmsoa'
+def register_extensions(app):
+    """Method for register Flask extensions."""
+    redis_client.init_app(app)
+    logging.configure(base_path)
 
-FlaskDynaconf(app)
+def register_endpoints(app):
+    """Method for register Flask endpoints."""
+    from server.modules.home.views import index
+    from server.modules.numbers.views import numbers
 
-redis_client = Redis(
-    host='localhost',
-    port=6379,
-    db=0
-)
+    app.register_blueprint(index)
+    app.register_blueprint(numbers)
 
-base_path = os.path.dirname(os.path.abspath(__file__))
-logging.configure(base_path)
 
-from server.modules.home.views import index
-from server.modules.numbers.views import numbers
+def create_app():
+    """Method for initialization of full system."""
 
-app.register_blueprint(index)
-app.register_blueprint(numbers)
+    app = Flask(__name__)
 
+    if os.environ['FLASK_ENV'] == 'development':
+        app.config.from_object('server.config.dev.DevelopmentConfig')
+    elif os.environ['FLASK_ENV'] == 'production':
+        app.config.from_object('server.config.prod.ProductionConfig')
+
+    register_extensions(app)
+    register_endpoints(app)    
+
+    return app
