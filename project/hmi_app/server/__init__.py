@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 
 from flask import Flask
@@ -25,17 +24,13 @@ def register_endpoints(app):
     app.register_blueprint(numbers)
 
 
-def create_app():
+def create_app(config_class):
     """Method for initialization of full system."""
 
     app = Flask(__name__)
-
-    if os.environ['FLASK_ENV'] == 'development':
-        app.config.from_object('server.config.dev.DevelopmentConfig')
-    elif os.environ['FLASK_ENV'] == 'production':
-        app.config.from_object('server.config.prod.ProductionConfig')
+    app.config.from_object(config_class)
 
     register_extensions(app)
-    register_endpoints(app)    
+    register_endpoints(app)        
 
     return app
