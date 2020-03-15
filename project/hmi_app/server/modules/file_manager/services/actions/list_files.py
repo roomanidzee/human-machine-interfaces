@@ -98,6 +98,7 @@ class FilesListCommand(BaseCommand):
         return CommandResult(
             is_success=True,
             command=self.command,
+            path=self.command_args.path,
             message='Files list result',
             attributes=attributes
         )

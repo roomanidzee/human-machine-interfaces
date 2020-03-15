@@ -9,5 +9,6 @@ class CommandResult:
     is_success: bool
     command: str
     message: str
+    path: str
     attributes: Union[List[str], Dict[str, str]]
     execution_time: datetime = datetime.now()
