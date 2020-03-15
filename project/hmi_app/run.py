@@ -1,6 +1,7 @@
 import os
 
 from server import create_app
+
 from server.config.dev import DevelopmentConfig
 from server.config.prod import ProductionConfig
 
@@ -11,8 +12,9 @@ elif os.environ['FLASK_ENV'] == 'production':
 
 app = create_app(config_class)
 
-app.run(
-    host=app.config['APP_HOST'],
-    port=app.config['APP_PORT'],
-    debug=app.config['FLASK_DEBUG'],
-)
+if __name__ == '__main__':
+    app.run(
+        host=app.config['APP_HOST'],
+        port=app.config['APP_PORT'],
+        debug=app.config['FLASK_DEBUG'],
+    )

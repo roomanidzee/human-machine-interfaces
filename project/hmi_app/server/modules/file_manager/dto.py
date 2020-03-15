@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, List, Union
 from datetime import datetime
 
 from dataclasses import dataclass
@@ -9,5 +9,5 @@ class CommandResult:
     is_success: bool
     command: str
     message: str
-    attributes: Dict[str, str]
-    execution_time: datetime
+    attributes: Union[List[str], Dict[str, str]]
+    execution_time: datetime = datetime.now()

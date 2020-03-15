@@ -24,9 +24,7 @@ def configure(base_path):
             TimedRotatingFileHandler(
                 filename=f"{log_path}/hmi_app.({current_time}).log",
                 encoding='utf-8',
-                when="d",
-                backupCount=5,
-                interval=1
+                when="d"
             ),
             logging.StreamHandler()
         ]

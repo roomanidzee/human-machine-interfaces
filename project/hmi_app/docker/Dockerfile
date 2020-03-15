@@ -17,7 +17,7 @@ ENV FLASK_ENV=${FLASK_ENV} \
     PIP_DEFAULT_TIMEOUT=100
 
 RUN apt-get update  \
-    && apt-get install -y --no-install-recommends gettext libpq-dev netcat g++ gcc wget
+    && apt-get install -y --no-install-recommends gettext libpq-dev netcat g++ gcc wget python3-dev
 
 RUN pip install "poetry==$POETRY_VERSION" \
     && wget "https://github.com/jwilder/dockerize/releases/download/${DOCKERIZE_VERSION}/dockerize-alpine-linux-amd64-${DOCKERIZE_VERSION}.tar.gz" \
