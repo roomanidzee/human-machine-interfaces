@@ -1,8 +1,11 @@
 # human-machine-interfaces
 Repository for human-machine interfaces tasks
 
-## Tests launch
- - ```cd project/hmi_app```
- - Launch Redis
- - Install all project dependencies with poetry
+## Launch (App)
+ - ```cd project```
+ - ```docker-compose up -d```
+
+## Launch (Tests)
+ - ```cd project```
+ - ```docker-compose run --rm app bash```
  - ```pytest tests```
