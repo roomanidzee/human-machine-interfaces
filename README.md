@@ -7,5 +7,4 @@ Repository for human-machine interfaces tasks
 
 ## Launch (Tests)
  - ```cd project```
- - ```docker-compose run --rm app bash```
- - ```pytest tests```
+ - ```docker-compose run --rm app launch-tests```
