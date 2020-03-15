@@ -2,7 +2,7 @@
 import argparse
 from pathlib import Path
 
-from server import base_path
+from server import base_path, redis_client
 from server.modules.file_manager.dto import CommandResult
 from server.modules.numbers.services import RedisService
 from server.modules.file_manager.services.actions import BaseCommand
@@ -13,6 +13,11 @@ class FilesListCommand(BaseCommand):
     def __init__(self, command: str):
         self.command = command.replace('list', '')
         self.redis_service = RedisService()
+
+        current_path = redis_client.get('current_path')
+
+        if not current_path:
+            current_path = base_path
 
         parser = argparse.ArgumentParser()
         
@@ -34,7 +39,7 @@ class FilesListCommand(BaseCommand):
             '-p',
             dest='path',
             type=str,
-            default=base_path,
+            default=current_path,
             help='Directory for file list'
         )
 
@@ -97,7 +102,7 @@ class FilesListCommand(BaseCommand):
 
         return CommandResult(
             is_success=True,
-            command=self.command,
+            command=f'list {self.command}',
             path=self.command_args.path,
             message='Files list result',
             attributes=attributes
