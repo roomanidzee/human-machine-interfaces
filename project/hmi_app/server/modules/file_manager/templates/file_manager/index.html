@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Файловый менеджер</title>
+        <meta charset="UTF-8">
+    </head>
+
+    <body>
+
+        <form id = "form" action="{{ url_for('file_manager_views.submit_command') }}" method="POST">
+            <input name = "command">
+            <button type="submit">Ввести команду</button>
+        </form>
+
+        Текущая команда: {{ elem.command }}
+        <br/>
+        Успешно? {{ elem.is_success }}
+        <br/>
+        Путь: {{ elem.path }}
+        <br/>
+
+        {% if isinstance(elem.attributes, dict) %}
+
+        {% for item in elem.attributes.keys() %}
+        <h2>{{ item }}</h2>
+        {% endfor %}
+
+        {% endif %}
+
+        {% if isinstance(elem.attributes, list) %}
+
+        {% for item in elem.attributes %}
+        <h2>{{ item }}</h2>
+        {% endfor %}
+
+        {% endif %}
+
+    </body>
+
+</html>

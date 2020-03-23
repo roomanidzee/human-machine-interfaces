@@ -19,9 +19,11 @@ def register_endpoints(app):
     """Method for register Flask endpoints."""
     from server.modules.home.views import index
     from server.modules.numbers.views import numbers
+    from server.modules.file_manager.views import file_manager
 
     app.register_blueprint(index)
     app.register_blueprint(numbers)
+    app.register_blueprint(file_manager)
 
 
 def create_app(config_class):

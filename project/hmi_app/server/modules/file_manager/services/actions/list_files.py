@@ -14,10 +14,10 @@ class FilesListCommand(BaseCommand):
         self.command = command.replace('list', '')
         self.redis_service = RedisService()
 
-        current_path = redis_client.get('current_path')
+        self.current_path = redis_client.get('current_path')
 
-        if not current_path:
-            current_path = base_path
+        if not self.current_path:
+            self.current_path = base_path
 
         parser = argparse.ArgumentParser()
         
@@ -39,7 +39,7 @@ class FilesListCommand(BaseCommand):
             '-p',
             dest='path',
             type=str,
-            default=current_path,
+            default=self.current_path,
             help='Directory for file list'
         )
 
@@ -58,7 +58,7 @@ class FilesListCommand(BaseCommand):
 
         cache_dict = {
             elem.absolute : num
-            for num, elem in enumerate(working_path)
+            for num, elem in enumerate(files)
         }
 
         self.redis_service.save_dict(cache_dict)
