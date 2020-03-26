@@ -19,7 +19,7 @@ class ChangeDirectoryCommand(BaseCommand):
 
     def process(self) -> CommandResult:
 
-        path = Path(self.current_path) / Path(self.command)
+        path = Path(str(self.current_path)) / Path(self.command)
 
         if path.exists():
             redis_client.set('current_path', str(path))

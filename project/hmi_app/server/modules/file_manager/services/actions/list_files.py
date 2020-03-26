@@ -1,5 +1,4 @@
 
-import argparse
 from pathlib import Path
 
 from server import base_path, redis_client
@@ -19,42 +18,18 @@ class FilesListCommand(BaseCommand):
         if not self.current_path:
             self.current_path = base_path
 
-        parser = argparse.ArgumentParser()
-        
-        parser.add_argument(
-            '-f',
-            dest='format',
-            type=str,
-            help='Choose, by which extension you will filter files'
-        )
-
-        parser.add_argument(
-            '-i',
-            dest='show_info',
-            type=bool,
-            help='Show full info or not'
-        )
-
-        parser.add_argument(
-            '-p',
-            dest='path',
-            type=str,
-            default=self.current_path,
-            help='Directory for file list'
-        )
-
-        parser.add_argument(
-            '-sort',
-            dest='sort_type',
-            type=str,
-            help='Sorting for files'
-        )
-
-        self.command_args = parser.parse_args([self.command])
+        self.command_args = self.command.split(' ')
 
     def process(self) -> CommandResult:
 
-        files = Path(self.command_args.path).glob('**/*')
+        folder_path = ""
+
+        try:
+            folder_path = self.command_args[self.command_args.index('-p') + 1]
+        except ValueError:
+            folder_path = self.current_path
+
+        files = Path(str(folder_path).replace('b', '')).glob('**/*')
 
         cache_dict = {
             elem.absolute : num
@@ -63,27 +38,37 @@ class FilesListCommand(BaseCommand):
 
         self.redis_service.save_dict(cache_dict)
 
-        if self.command_args.format:
+        try:
+            file_format = self.command_args[self.command_args.index('-f') + 1]
+
             files = [
                 elem
                 for elem in files
-                if elem.suffix == self.command_args.format
+                if elem.suffix == file_format
             ]
+        except ValueError:
+            pass
 
-        if self.command_args.sort_type == 'name':
-            files = sorted(
-                files,
-                key=lambda item: item.name
-            )
-        elif self.command_args.sort_type == 'date':
-            files = sorted(
-                files,
-                key=labmda item: item.stat().st_ctime
-            )
+        try:
+            sort_type = self.command_args[self.command_args.index('-sort') + 1]
+
+            if sort_type == 'name':
+                files = sorted(
+                    files,
+                    key=lambda item: item.name
+                )
+            elif sort_type == 'date':
+                files = sorted(
+                    files,
+                    key=lambda item: item.stat().st_ctime
+                )
+        except ValueError:
+            pass
 
         attributes = None
 
-        if self.command_args.show_info:
+        try:
+            show_info = self.command_args[self.command_args.index('-sort')]
 
             attributes = {
                 elem.absolute: {
@@ -94,7 +79,7 @@ class FilesListCommand(BaseCommand):
 
                 for elem in files
             }
-        else:
+        except ValueError:
             attributes = [
                 elem.absolute
                 for elem in files
@@ -103,7 +88,7 @@ class FilesListCommand(BaseCommand):
         return CommandResult(
             is_success=True,
             command=f'list {self.command}',
-            path=self.command_args.path,
+            path=folder_path,
             message='Files list result',
             attributes=attributes
         )

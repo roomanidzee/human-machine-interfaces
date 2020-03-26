@@ -27,7 +27,7 @@ def show_page():
 
     return render_template(
         'file_manager/index.html',
-        elem = process_command('list -i')
+        elem = process_command('list')
     )
 
 @file_manager.route(

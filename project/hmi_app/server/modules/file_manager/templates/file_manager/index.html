@@ -19,8 +19,9 @@
         <br/>
         Путь: {{ elem.path }}
         <br/>
+        Результаты: {{ elem.attributes }}
 
-        {% if isinstance(elem.attributes, dict) %}
+        {% if elem.attributes is mapping %}
 
         {% for item in elem.attributes.keys() %}
         <h2>{{ item }}</h2>
@@ -28,7 +29,7 @@
 
         {% endif %}
 
-        {% if isinstance(elem.attributes, list) %}
+        {% if elem.attributes is iterable %}
 
         {% for item in elem.attributes %}
         <h2>{{ item }}</h2>

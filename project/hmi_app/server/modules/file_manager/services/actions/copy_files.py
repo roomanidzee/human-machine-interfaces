@@ -33,11 +33,18 @@ class FilesCopyCommand(BaseCommand):
             help='Directory for file list'
         )
 
-        self.command_args = parser.parse_args([self.command])
+        self.command_args = self.command.split(' ')
     
     def process(self) -> CommandResult:
 
-        keys = set(self.redis_client.scan_iter())
+        folder_path = ""
+
+        try:
+            folder_path = self.command_args[self.command_args.index('-p') + 1]
+        except ValueError:
+            folder_path = self.current_path 
+
+        keys = set(redis_client.scan_iter())
 
         file_keys = [
             elem
@@ -45,22 +52,41 @@ class FilesCopyCommand(BaseCommand):
             if self.current_path in elem
         ]
 
-        filtered_paths = [
-            elem 
-            for elem in file_keys
-            if self.redis_client.get(elem) is not None
-            and int(self.redis_client.get(elem)) in self.command_args.file_ids
-        ]
+        file_ids = []
 
-        for elem in filtered_paths:
-            src = Path(elem)
-            dest = Path(f'{self.command_args.path}') / Path(f'{src.name}.{src.stem}')
-            dest.write_bytes(src.read_bytes())
+        try:
+
+            ids_input = self.command_args[self.command_args.index('-ids') + 1].split(',')
+
+            file_ids = [
+                int(elem)
+                for elem in ids_input
+            ]
+
+            filtered_paths = [
+                elem 
+                for elem in file_keys
+                if self.redis_client.get(elem) is not None
+                and int(self.redis_client.get(elem)) in file_ids
+            ]
+
+            for elem in filtered_paths:
+                src = Path(elem)
+                dest = Path(f'{self.command_args.path}') / Path(f'{src.name}.{src.stem}')
+                dest.write_bytes(src.read_bytes())
+        except:
+            return CommandResult(
+                is_success=False,
+                command=f'copy {self.command}',
+                path=folder_path,
+                message='File copy result',
+                attributes=[]
+            )
 
         return CommandResult(
             is_success=True,
             command=f'copy {self.command}',
-            path=self.command_args.path,
+            path=folder_path,
             message='File copy result',
             attributes=filtered_paths
         )

@@ -1,8 +1,8 @@
 
-import argparse
 from pathlib import Path
 
 from server import redis_client
+from server.modules.file_manager.dto import CommandResult
 from server.modules.file_manager.services.actions import BaseCommand
 
 class FileCreateCommand(BaseCommand):
@@ -15,38 +15,38 @@ class FileCreateCommand(BaseCommand):
 
         if not self.current_path:
             self.current_path = base_path
-        
-        parser = argparse.ArgumentParser()
 
-        parser.add_argument(
-            '-p',
-            dest='path',
-            type=str,
-            default=self.current_path,
-            help='Directory for file create'
-        )
-
-        parser.add_argument(
-            '-f',
-            dest='new_file',
-            type=str,
-            help='File for creation'
-        )
-
-        self.command_args = parser.parse_args([self.command])
+        self.command_args = self.command.split(' ')
     
     def process(self) -> CommandResult:
 
-        path = self.command_args.path
-        new_file = self.command_args.new_file
+        folder_path = ""
 
-        new_path = Path(path) / Path(new_file)
-        new_path.touch()
+        try:
+            folder_path = self.command_args[self.command_args.index('-p') + 1]
+        except ValueError:
+            folder_path = self.current_path
+
+        try:
+            file_path = self.command_args[self.command_args.index('-f') + 1]
+
+            new_path = Path(path) / Path(new_file)
+            new_path.touch()
+
+        except:
+
+            return CommandResult(
+                is_success=False,
+                command=f'create {self.command}',
+                path=folder_path,
+                message='File create result',
+                attributes=[str(new_path)]
+            )
 
         return CommandResult(
             is_success=True,
             command=f'create {self.command}',
-            path=self.command_args.path,
+            path=folder_path,
             message='File create result',
             attributes=[str(new_path)]
         )
