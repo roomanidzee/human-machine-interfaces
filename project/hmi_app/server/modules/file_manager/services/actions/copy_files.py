@@ -26,14 +26,14 @@ class FilesCopyCommand(BaseCommand):
         try:
             folder_path = self.command_args[self.command_args.index('-p') + 1]
         except ValueError:
-            folder_path = self.current_path 
+            folder_path = str(self.current_path)
 
         keys = set(redis_client.scan_iter())
 
         file_keys = [
             elem
             for elem in keys
-            if self.current_path in elem
+            if folder_path in elem
         ]
 
         file_ids = []
