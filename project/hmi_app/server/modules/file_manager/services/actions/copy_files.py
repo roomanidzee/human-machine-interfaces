@@ -17,22 +17,6 @@ class FilesCopyCommand(BaseCommand):
         if not self.current_path:
             self.current_path = base_path
 
-        parser = argparse.ArgumentParser()
-        parser.add_argument(
-            '-ids',
-            dest='file_ids',
-            type=list,
-            help='Identificators for files'
-        )
-
-        parser.add_argument(
-            '-p',
-            dest='path',
-            type=str,
-            default=self.current_path,
-            help='Directory for file list'
-        )
-
         self.command_args = self.command.split(' ')
     
     def process(self) -> CommandResult:
@@ -56,7 +40,7 @@ class FilesCopyCommand(BaseCommand):
 
         try:
 
-            ids_input = self.command_args[self.command_args.index('-ids') + 1].split(',')
+            ids_input = self.command_args[self.command_args.index('-p') + 2:].split(',')
 
             file_ids = [
                 int(elem)

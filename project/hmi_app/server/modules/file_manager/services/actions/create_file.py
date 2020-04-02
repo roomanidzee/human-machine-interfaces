@@ -1,7 +1,7 @@
 
 from pathlib import Path
 
-from server import redis_client
+from server import redis_client, base_path
 from server.modules.file_manager.dto import CommandResult
 from server.modules.file_manager.services.actions import BaseCommand
 
