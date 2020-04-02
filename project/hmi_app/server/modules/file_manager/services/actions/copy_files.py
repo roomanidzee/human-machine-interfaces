@@ -33,7 +33,7 @@ class FilesCopyCommand(BaseCommand):
         file_keys = [
             elem
             for elem in keys
-            if folder_path in elem
+            if str(folder_path) in str(elem)
         ]
 
         file_ids = []
