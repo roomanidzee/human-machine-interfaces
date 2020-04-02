@@ -30,7 +30,7 @@ class FileCreateCommand(BaseCommand):
         try:
             file_path = self.command_args[self.command_args.index('-f') + 1]
 
-            new_path = Path(path) / Path(new_file)
+            new_path = Path(folder_path) / Path(file_path)
             new_path.touch()
 
         except:
@@ -40,7 +40,7 @@ class FileCreateCommand(BaseCommand):
                 command=f'create {self.command}',
                 path=folder_path,
                 message='File create result',
-                attributes=[str(new_path)]
+                attributes=[str(folder_path)]
             )
 
         return CommandResult(
